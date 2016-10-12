@@ -52,14 +52,7 @@ import org.artoolkit.ar.base.rendering.ARRenderer;
 import org.artoolkit.ar.base.rendering.Cube;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLU;
-import android.opengl.GLUtils;
 import android.util.Log;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -69,11 +62,15 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class SimpleRenderer extends ARRenderer {
 
-    private int markerID = -1;
     private Cube cube = new Cube(30.0f, 0.0f, 0.0f, 20.0f);
     private Context mContext;
 
     private Square mSquare;
+    private int willId = -1;
+    private int youId = -1;
+    private int mId = -1;
+    private int mMId = -1;
+    private int mStoopidId = -1;
 
     public SimpleRenderer(Context context) {
         mContext = context;
@@ -86,11 +83,17 @@ public class SimpleRenderer extends ARRenderer {
     @Override
     public boolean configureARScene() {
 
-        markerID = ARToolKit.getInstance().addMarker("multi;Data/multi/marker.dat");
-        if (markerID < 0) {
+        willId = ARToolKit.getInstance().addMarker("single;Data/bb.patt;80");
+        youId = ARToolKit.getInstance().addMarker("single;Data/paris.patt;80");
+        mId = ARToolKit.getInstance().addMarker("single;Data/ring.patt;80");
+//        willId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker.dat");
+//        youId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker2.dat");
+//        mId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker3.dat");
+        if (willId < 0) {
             return false;
         }
 
+        Log.i("reid", "read markers we're good:" + willId + " youId: " + youId + " mId: " + mId);
         return true;
     }
 
@@ -159,11 +162,39 @@ public class SimpleRenderer extends ARRenderer {
         gl.glFrontFace(GL10.GL_CW);
 
         // If the marker is visible, apply its transformation, and draw a cube
-        if (ARToolKit.getInstance().queryMarkerVisible(markerID)) {
+
+        if (ARToolKit.getInstance().queryMarkerVisible(willId)) {
+            Log.i("reid", "marker is visible!!" + willId + " youId: " + youId);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
-            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(markerID), 0);
+            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(willId), 0);
             gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-            mSquare.draw(gl);
+            mSquare.draw(gl, willId);
+        }
+        if (ARToolKit.getInstance().queryMarkerVisible(youId)) {
+            Log.i("reid", "marker is visible!!" + "youId: " + youId);
+            gl.glMatrixMode(GL10.GL_MODELVIEW);
+            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(youId), 0);
+            gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+            mSquare.draw(gl, youId);
+        }
+        if (ARToolKit.getInstance().queryMarkerVisible(mId)) {
+            Log.i("reid", "marker is visible!!" + "mId: " + mId);
+            gl.glMatrixMode(GL10.GL_MODELVIEW);
+            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mId), 0);
+            gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+            mSquare.draw(gl, mId);
+        }
+        if (ARToolKit.getInstance().queryMarkerVisible(mMId)) {
+            gl.glMatrixMode(GL10.GL_MODELVIEW);
+            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mMId), 0);
+            gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+            mSquare.draw(gl, mMId);
+        }
+        if (ARToolKit.getInstance().queryMarkerVisible(mStoopidId)) {
+            gl.glMatrixMode(GL10.GL_MODELVIEW);
+            gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mStoopidId), 0);
+            gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
+            mSquare.draw(gl, mStoopidId);
         }
     }
 

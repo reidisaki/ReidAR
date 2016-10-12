@@ -18,9 +18,10 @@ import android.opengl.GLUtils;
  */
 public class Square {
 
+    private int mId;
     private Context mContext;
     private FloatBuffer vertexBuffer;    // buffer holding the squareCoords
-    float size = 75.0f;
+    float size = 25.0f;
     private float squareCoords[] = {
             -size, -size, 0.0f,        // V1 - bottom left
             -size, size, 0.0f,        // V2 - top left
@@ -68,8 +69,26 @@ public class Square {
      * Load the texture for the square
      */
     public void loadGLTexture(GL10 gl, Context context) {
+        Bitmap bitmap = null;
         // loading texture
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.cat);
+        switch (mId) {
+            case 0:
+                bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.will);
+                break;
+            case 1:
+                bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.you);
+                break;
+            case 2:
+                bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.m);
+                break;
+            case 3:
+                bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.me);
+                break;
+            case 4:
+                bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stoopid);
+                break;
+        }
+
         // generate one texture pointer
         gl.glGenTextures(1, textures, 0);
         // ...and bind it to our array
@@ -94,7 +113,8 @@ public class Square {
     /**
      * The draw method for the square with the GL context
      */
-    public void draw(GL10 gl) {
+    public void draw(GL10 gl, int id) {
+        mId = id;
         // bind the previously generated texture
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
 

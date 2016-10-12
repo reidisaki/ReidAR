@@ -8,7 +8,7 @@ model {
             applicationId = "com.lynx.risaki.reidar"
             minSdkVersion.apiLevel = 15
             targetSdkVersion.apiLevel = 22
-            versionCode = 1
+            versionCode = 3
             //Integer type incremented by 1 for every release, major or minor, to Google store
             versionName = "1.0" //Real fully qualified major and minor release description
 
