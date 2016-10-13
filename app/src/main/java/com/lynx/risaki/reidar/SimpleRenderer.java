@@ -65,16 +65,20 @@ public class SimpleRenderer extends ARRenderer {
     private Cube cube = new Cube(30.0f, 0.0f, 0.0f, 20.0f);
     private Context mContext;
 
-    private Square mSquare;
+    private Square mSquare, mYouSquare, mMSquare, mMMSquare, mStoopidSquare;
     private int willId = -1;
     private int youId = -1;
     private int mId = -1;
-    private int mMId = -1;
-    private int mStoopidId = -1;
+    private int mMId = -1; //bottle
+    private int mStoopidId = -1; //glass
 
     public SimpleRenderer(Context context) {
         mContext = context;
         mSquare = new Square(context);
+        mYouSquare = new Square(context);
+        mMSquare = new Square(context);
+        mMMSquare = new Square(context);
+        mStoopidSquare = new Square(context);
     }
 
     /**
@@ -86,6 +90,8 @@ public class SimpleRenderer extends ARRenderer {
         willId = ARToolKit.getInstance().addMarker("single;Data/bb.patt;80");
         youId = ARToolKit.getInstance().addMarker("single;Data/paris.patt;80");
         mId = ARToolKit.getInstance().addMarker("single;Data/ring.patt;80");
+        mMId = ARToolKit.getInstance().addMarker("single;Data/me.patt;80");
+        mStoopidId = ARToolKit.getInstance().addMarker("single;Data/stoopid.patt;80");
 //        willId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker.dat");
 //        youId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker2.dat");
 //        mId = ARToolKit.getInstance().addMarker("multi;Data/multi/marker3.dat");
@@ -150,6 +156,10 @@ public class SimpleRenderer extends ARRenderer {
     @Override
     public void draw(GL10 gl) {
         mSquare.loadGLTexture(gl, mContext);
+        mYouSquare.loadGLTexture(gl, mContext);
+        mMMSquare.loadGLTexture(gl, mContext);
+        mMSquare.loadGLTexture(gl, mContext);
+        mStoopidSquare.loadGLTexture(gl, mContext);
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 //
 //        // Apply the ARToolKit projection matrix
@@ -175,26 +185,26 @@ public class SimpleRenderer extends ARRenderer {
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(youId), 0);
             gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-            mSquare.draw(gl, youId);
+            mYouSquare.draw(gl, youId);
         }
         if (ARToolKit.getInstance().queryMarkerVisible(mId)) {
             Log.i("reid", "marker is visible!!" + "mId: " + mId);
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mId), 0);
             gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-            mSquare.draw(gl, mId);
+            mMSquare.draw(gl, mId);
         }
         if (ARToolKit.getInstance().queryMarkerVisible(mMId)) {
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mMId), 0);
             gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-            mSquare.draw(gl, mMId);
+            mMMSquare.draw(gl, mMId);
         }
         if (ARToolKit.getInstance().queryMarkerVisible(mStoopidId)) {
             gl.glMatrixMode(GL10.GL_MODELVIEW);
             gl.glLoadMatrixf(ARToolKit.getInstance().queryMarkerTransformation(mStoopidId), 0);
             gl.glColor4f(0.0f, 1.0f, 0.0f, 0.0f);
-            mSquare.draw(gl, mStoopidId);
+            mStoopidSquare.draw(gl, mStoopidId);
         }
     }
 
